@@ -4,10 +4,13 @@ let RecipeSchema = new mongoose.Schema(
     {
         name: String,
         calories: Number,
-        ingredients: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Food'
-        }
+        ingredients: 
+        [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Food'
+            }
+        ]
     }
 )
 

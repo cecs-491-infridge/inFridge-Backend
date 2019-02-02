@@ -2,12 +2,20 @@ const mongoose = require('mongoose');
 
 let PostSchema = new mongoose.Schema(
     {
-        id: String,
-        creationDate: Number,
         location: String,
         isActive: Boolean,
-        tradeType: String
-    }
+        tradeType: {
+            type: String,
+            // Allowable values for tradeType
+            enum: ['donate', 'trade', 'sell']
+        },
+        author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+    },
+    // Adds createdAt and updatedAt fields (automatically updates)
+    { timestamps: true }
 )
 
 module.exports = mongoose.model('Post', PostSchema);

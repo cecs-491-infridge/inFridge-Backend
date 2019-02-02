@@ -1,20 +1,18 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 let TransactionSchema = new mongoose.Schema(
     {
         post: {
-            type: mongoose.Schema.Types.Object.Id,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Post'
         },
-        id: String,
-        completionDate: Number,
-        receivingUser: {
+        buyer: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            default: null
         },
-        givingUser: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }
+        completionDate: { type: Date, default: 0 }
     }
 )
+
+module.exports = mongoose.model('Transaction', TransactionSchema);

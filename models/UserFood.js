@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 
 let UserFoodSchema = new mongoose.Schema(
     {
-        id: Number,
-        expirationDate: Date
+        expirationDate: Date,
+        food: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Food'
+        }
     }
 )
 
