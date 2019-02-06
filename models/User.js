@@ -11,7 +11,7 @@ let UserSchema = new mongoose.Schema(
         },
         password: { type: String, required: true },
         rating: { type: Number, default: 0 },
-        postHistory: [
+        posts: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Post'
