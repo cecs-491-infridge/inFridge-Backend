@@ -34,38 +34,4 @@ app.get('/', (req, res)=> {
     });
 });
 
-app.get('/:userId/post/:postId', (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-
-    respondWithDataById(res, User, id);
-});
-app.get('/:userId/all-posts', (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-
-    getDocByIdAndRespond(res, User, id);
-});
-
-// app.post('/:userId/transaction', async(req, res) => {
-//     console.log(req.body);
-
-//     const userId = req.params.userId;
-//     const { body, location, tradeType } = req.body;
-
-//     const transaction = new Transaction({
-//         author: userId,
-//         body,
-//         location,
-//         tradeType
-//     });
-
-//     await saveDocAndRespond(res, transaction);
-// });
-
-// SHORTCUTS ---------
-const str2Id = (str) => {
-    return mongoose.Types.ObjectId(str);
-}
-
 app.listen(port, () => console.log(`Listening on port ${port}`));

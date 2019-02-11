@@ -14,8 +14,6 @@ module.exports = {
         getAllUserPosts: (req, res) => {
             const userId = req.params.userId;
 
-            console.log('in')
-        
             util.populateAndRespond(res, User, userId, 'posts');
         },
 
