@@ -13,16 +13,24 @@ const options = {
 
 let PostSchema = new mongoose.Schema(
     {
-        // author: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: 'User',
-        //     required: true
-        // },
+        author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
         body: { type: String, required: true, minlength: 1 },
-        likes: {
-            type: Number,
-            default: 0
-        }
+        likes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
+        comments: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref:'Comment'
+            }
+        ]
     },
     options
 )
@@ -36,9 +44,9 @@ let PostSchema = new mongoose.Schema(
 // Returns
 // undefined on success and
 // err on error
-PostSchema.statics.likePost = async function(postId) {
+PostSchema.statics.likePost = async function(postId, userId) {
     const query = { _id: postId }
-        , update = { $inc: { likes: 1 } };
+        , update = { $push: { likes: userId } };
 
     try{
         await this.updateOne(
@@ -49,6 +57,9 @@ PostSchema.statics.likePost = async function(postId) {
         return err;
     }
 }
+PostSchema.methods.getLikes = () => this.likes.length;
+
+PostSchema.index({ author: 1 });
 
 module.exports = {
     Post: mongoose.model('Post', PostSchema),

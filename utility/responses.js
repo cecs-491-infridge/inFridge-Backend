@@ -5,11 +5,6 @@ module.exports = {
         try{
             const newDoc = await doc.save();
 
-            // console.log(newDoc._id)
-
-            // Transaction.likePost(newDoc._id);
-            // Transaction.complete(newDoc._id, "5c5770509109e157040dfffb");
-
             res.status(201).send({
                 response: 'Document successfully Saved!',
                 data: newDoc

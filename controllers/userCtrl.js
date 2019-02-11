@@ -3,23 +3,48 @@ const User = require('../models/User');
 
 module.exports = {
     // Probably get id from login service
-    createUser: (req, res) => {
-        const { name, password } = req.body;
+    createUser: async(req, res) => {
+        try{
+            const { name, password } = req.body;
 
-        // Encrypt password
-        // encrypt(password)
-        const user = new User({
-            name,
-            password
-        });
+            // Encrypt password
+            const user = new User({
+                name,
+                password
+            });
     
-        util.saveDocAndRespond(res, user);
+            const newUser = await user.save();
+
+            res.status(201).send({
+                response: 'User successfully Saved!',
+                data: newUser
+            });
+        }catch(err) {
+            console.log(err.name+'\n');
+            console.log(err.code+'\n');
+            console.log(err.message);
+
+            res.status(409).send({
+                error: err.name,
+                message: err.message
+            });
+        }
     },
     
-    getUser: (req, res) => {
-        const id = req.params.id;
-        console.log(id);
-    
-        util.getDocByIdAndRespond(res, User, id);
+    getUser: async(req, res) => {
+        try{
+            const id = req.params.id;
+
+            const user = await User.findById(id);
+            res.status(200).send({
+                data: user
+            });
+        }catch(err) {
+            console.log(err);
+            res.status(404).send({
+                response: err.name,
+                message: err.message
+            });
+        }
     }
 }
