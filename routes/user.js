@@ -9,4 +9,8 @@ module.exports = (router) => {
     router
         .route('/user/:id')
         .get(userCtrl.getUser);
+
+    router
+        .route('/all-users')
+        .get(userCtrl.getAllUsers);
 }

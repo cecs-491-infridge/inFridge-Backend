@@ -46,5 +46,20 @@ module.exports = {
                 message: err.message
             });
         }
+    },
+
+    // Temp method for testing
+    getAllUsers: async(req, res) => {
+        try{
+            const users = await User.find({});
+            res.status(201).send({
+                data: users
+            });
+        }catch(err) {
+            res.status(404).send({
+                response: err.name,
+                message: err.message
+            });
+        }
     }
 }

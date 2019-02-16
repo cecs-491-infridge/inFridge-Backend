@@ -9,6 +9,11 @@ module.exports = (router) => {
         .route('/:userId/all-posts')
         .get(postCtrl.getAllUserPosts);
 
+    // Dev route
+    router
+        .route('/all-posts')
+        .get(postCtrl.getAllPosts);
+
     router
         .route('/delete-post')
         .post(postCtrl.deletePost);

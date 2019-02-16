@@ -17,6 +17,21 @@ module.exports = {
             util.populateAndRespond(res, User, userId, 'posts');
         },
 
+        getAllPosts: async (req, res) => {
+            try {
+                const allPosts = await Post.find({});
+
+                res.status(201).send({
+                    data: allPosts
+                });
+            }catch(err) {
+                res.status(404).send({
+                    response: err.name,
+                    message: err.message
+                });
+            }
+        },
+
         // Need to test
         deletePost: async(req, res) => {
             try{
