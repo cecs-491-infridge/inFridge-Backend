@@ -92,7 +92,7 @@ async function signInComplete(iss, sub, profile, accessToken, refreshToken, para
   }
 
   try{
-    const user = await graph.getUserDetails(accessToken);
+    const user = await graph.getUserDetails(accessToken);http://school.corg.network:3000/all-users
 
     if (user) {
       // Add properties to profile
