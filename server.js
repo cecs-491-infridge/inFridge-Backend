@@ -17,9 +17,9 @@ const db = require('./database');
 db(MONGO_PATH);
 
 // GRAPH API
-var passport = require('passport');
-var OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
-var graph = require('@microsoft/microsoft-graph-client');
+const passport = require('passport');
+const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
+const graph = require('@microsoft/microsoft-graph-client');
 
 module.exports = {
   getUserDetails: async function(accessToken) {
