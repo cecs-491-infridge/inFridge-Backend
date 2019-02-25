@@ -113,7 +113,7 @@ async function signInComplete(iss, sub, profile, accessToken, refreshToken, para
 // Configure OIDC strategy
 passport.use(new OIDCStrategy(
   {
-    identityMetadata: '${process.env.OAUTH_AUTHORITY}${process.env.OAUTH_ID_METADATA}',
+    identityMetadata: `${process.env.OAUTH_AUTHORITY}${process.env.OAUTH_ID_METADATA}`,
     clientID: process.env.OAUTH_APP_ID,
     responseType: 'code id_token',
     responseMode: 'form_post',
