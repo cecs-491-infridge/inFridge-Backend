@@ -1,23 +1,44 @@
 const util = require('../utility/responses');
 const User = require('../models/User');
 
+const { authenticateUser } = require('../MicrosoftGraph/microsoftGraph');
+
 module.exports = {
     // Probably get id from login service
     createUser: async(req, res) => {
         try{
-            const { name, password } = req.body;
+            const { studentId, studentPassword, userName, userPassword } = req.body;
 
-            // Encrypt password
+            // Authenticate student id and password with Graph API
+            // Call Auth route at authenticateUser:
+            const authKey = authenticateUser(studentId, studentPassword);
+            // Not authenticated
+            if(!authKey) throw new Error("Not authenticated");
+
+            // Encrypt password maybe?
+            //The key is stored:
+            //1. the user's phone
+            //2. the db
+            //????????????Which one is encrypted
+
+//2 attacks:
+//1. when the user sends to the server the key and other stuff
+//2. on the db to get all the user data
+
+
             const user = new User({
-                name,
-                password
+                userName,
+                userPassword,
+                userKey
             });
-    
+
+            //saving user to database
             const newUser = await user.save();
 
             res.status(201).send({
-                response: 'User successfully Saved!',
-                data: newUser
+                message: 'User successfully Saved!',
+                data: newUser,
+                authKey //if they're called the same thing, no need for colon
             });
         }catch(err) {
             console.log(err.name+'\n');
@@ -30,7 +51,7 @@ module.exports = {
             });
         }
     },
-    
+
     getUser: async(req, res) => {
         try{
             const id = req.params.id;

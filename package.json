@@ -21,6 +21,7 @@
     "express": "^4.16.4",
     "helmet": "^3.15.0",
     "mongoose": "^5.4.8",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "passport-azure-ad": "^4.0.0"
   }
 }

@@ -1,4 +1,4 @@
-const transaction = require('../models/Transaction');
+//const transaction = require('../models/Transaction');
 module.exports = {
     // For POST requests
     saveDocAndRespond: async(res, doc) => {
