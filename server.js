@@ -1,4 +1,4 @@
-require('dotenv').config(); //graph API
+require('dotenv').load(); //graph API
 
 // MODULES
 const express = require('express');
@@ -78,7 +78,7 @@ const oauth2 = require('simple-oauth2').create({
     secret: process.env.OAUTH_APP_PASSWORD
   },
   auth: {
-    tokenHost: 'https://login.microsoftonline.com/common',
+    tokenHost: process.env.OAUTH_AUTHORITY,
     authorizePath: process.env.OAUTH_AUTHORIZE_ENDPOINT,
     tokenPath: process.env.OAUTH_TOKEN_ENDPOINT
   }
