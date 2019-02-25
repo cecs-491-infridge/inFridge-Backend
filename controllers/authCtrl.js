@@ -1,8 +1,9 @@
 const util = require('../utility/responses');
 const User = require('../models/User');
 var passport = require('passport');
+var express = require('express');
 
-const { authenticateUser } = require('../MicrosoftGraph/microsoftGraph');
+// const { authenticateUser } = require('../MicrosoftGraph/microsoftGraph');
 
 module.exports = {
         authenticateUser: (req, res, next) => {
@@ -46,6 +47,13 @@ module.exports = {
                   authKey //if they're called the same thing, no need for colon
               });
 
+        },
+
+        signout: (req, res) => {
+            req.session.destroy(function(err) {
+              req.logout();
+              res.redirect('/');
+            });
         }
 
 }

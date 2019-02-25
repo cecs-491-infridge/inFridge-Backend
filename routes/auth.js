@@ -9,8 +9,11 @@ module.exports = (router) => {
         .route('/callback')
         .post(authCtrl.callback);
 
-        
     router
-        .route('/sign-in')
+        .route('/signin')
         .post(authCtrl.signIn);
+
+    router
+        .route('/signout')
+        .post(authCtrl.signout);
 }
