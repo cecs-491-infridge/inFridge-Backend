@@ -1,7 +1,7 @@
 const util = require('../utility/responses');
 const User = require('../models/User');
-var passport = require('passport');
-var express = require('express');
+var passport = require('../passport');
+var express = require('../express');
 
 // const { authenticateUser } = require('../MicrosoftGraph/microsoftGraph');
 
