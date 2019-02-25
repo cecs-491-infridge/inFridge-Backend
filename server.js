@@ -78,7 +78,7 @@ const oauth2 = require('simple-oauth2').create({
     secret: process.env.OAUTH_APP_PASSWORD
   },
   auth: {
-    tokenHost: process.env.OAUTH_AUTHORITY,
+    tokenHost: 'https://login.microsoftonline.com/common',
     authorizePath: process.env.OAUTH_AUTHORIZE_ENDPOINT,
     tokenPath: process.env.OAUTH_TOKEN_ENDPOINT
   }
