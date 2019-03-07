@@ -18,6 +18,7 @@ let UserFoodSchema = new mongoose.Schema(
         //     type: mongoose.Schema.Types.ObjectId,
         //     ref: 'Fridge'
         // },
+        purchaseDate: { type: Date, default: new Date() },
         expirationDate: Date
     }
 )
