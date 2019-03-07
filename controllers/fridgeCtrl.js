@@ -3,8 +3,6 @@ const User = require('../models/User');
 const Fridge = require('../models/Fridge');
 const UserFood = require('../models/UserFood');
 
-const axios = require('axios');
-
 module.exports = {
     getUserFood: async (req, res) => {
         try {
