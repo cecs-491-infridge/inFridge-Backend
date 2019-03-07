@@ -1,7 +1,9 @@
-const user = require('./user');
+const fridge = require('./fridge');
 const post = require('./post');
+const user = require('./user');
 
 module.exports = (router) => {
-    user(router);
+    fridge(router);
     post(router);
+    user(router);
 }

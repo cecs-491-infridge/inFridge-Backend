@@ -66,7 +66,7 @@ module.exports = {
                 const query = { _id: postId };
                 const update = { $push: { likes: userId } };
 
-                data = await Post.updateOne(
+                const data = await Post.updateOne(
                     query,
                     update
                 );

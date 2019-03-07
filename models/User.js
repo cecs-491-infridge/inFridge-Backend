@@ -11,6 +11,17 @@ let UserSchema = new mongoose.Schema(
         },
         password: { type: String, required: true },
         rating: { type: Number, default: 0 },
+        foodList: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'UserFood'
+            }
+        ],
+        // fridge:
+        //     {
+        //         type: mongoose.Schema.Types.ObjectId,
+        //         ref: 'Fridge'
+        //     },
         friends: [
             {
                 type: mongoose.Schema.Types.ObjectId,
