@@ -66,7 +66,7 @@ module.exports = {
         try{
             const { userId, foodId } = req.body;
 
-            const foodRm = await Food.remove({ _id: foodId });
+            const foodRm = await UserFood.remove({ _id: foodId });
 
             const query = { _id: foodId };
             const update = { $pull: { foodList: foodId }};
