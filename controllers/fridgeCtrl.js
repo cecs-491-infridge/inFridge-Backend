@@ -31,11 +31,12 @@ module.exports = {
     },
     createFood: async (req, res) => {
         try {
-            const { userId, name, expirationDate } = req.body;
+            const { userId, name, purchaseDate, expirationDate } = req.body;
 
             // Save Food
             const food = new UserFood({
                 name,
+                purchaseDate,
                 expirationDate
             });
             const newFood = await food.save();

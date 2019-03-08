@@ -39,6 +39,7 @@ module.exports = {
 
         // Need to test
         deletePost: async(req, res) => {
+            console.log('in')
             try{
                 const { postId, inputPassword } = req.body;
 
@@ -49,10 +50,10 @@ module.exports = {
                 console.log(password);
 
                 // Decrypt password
-                if(inputPassword === password) {
+                // if(inputPassword === password) {
                     const remove = await Post.findByIdAndRemove(postId);
                     res.status(201).send(remove);
-                }else throw new Error('Invalid credentials');
+                // }else throw new Error('Invalid credentials');
 
             }catch(err) {
                 res.status(409).send(err);

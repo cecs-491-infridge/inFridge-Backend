@@ -16,7 +16,7 @@ module.exports = (router) => {
 
     router
         .route('/delete-post')
-        .post(postCtrl.deletePost);
+        .delete(postCtrl.deletePost);
 
     router
         .route('/like-post')
