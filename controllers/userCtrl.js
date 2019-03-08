@@ -84,3 +84,5 @@ module.exports = {
         }
     }
 }
+
+// curl -d '{"name": "Daniel", "password": "123"}' -H "Content-Type: application/json" -X POST http://localhost:3000/create-fridge
