@@ -28,6 +28,7 @@
     "mongoose": "^5.4.8",
     "nodemon": "^1.18.10",
     "passport-azure-ad": "^4.0.0",
-    "simple-oauth2": "^2.2.1"
+    "simple-oauth2": "^2.2.1",
+    "unirest": "^0.6.0"
   }
 }

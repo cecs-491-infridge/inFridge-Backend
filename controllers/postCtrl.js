@@ -19,12 +19,17 @@ module.exports = {
 
         getAllPosts: async (req, res) => {
             try {
+                console.log('getAllPosts')
                 const allPosts = await Post.find({});
+
+                console.log('success')
 
                 res.status(201).send({
                     data: allPosts
                 });
             }catch(err) {
+                console.log('error')
+
                 res.status(404).send({
                     response: err.name,
                     message: err.message
@@ -34,6 +39,7 @@ module.exports = {
 
         // Need to test
         deletePost: async(req, res) => {
+            console.log('in')
             try{
                 const { postId, inputPassword } = req.body;
 
@@ -44,10 +50,10 @@ module.exports = {
                 console.log(password);
 
                 // Decrypt password
-                if(inputPassword === password) {
+                // if(inputPassword === password) {
                     const remove = await Post.findByIdAndRemove(postId);
                     res.status(201).send(remove);
-                }else throw new Error('Invalid credentials');
+                // }else throw new Error('Invalid credentials');
 
             }catch(err) {
                 res.status(409).send(err);
@@ -61,7 +67,7 @@ module.exports = {
                 const query = { _id: postId };
                 const update = { $push: { likes: userId } };
 
-                data = await Post.updateOne(
+                const data = await Post.updateOne(
                     query,
                     update
                 );
