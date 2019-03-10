@@ -7,8 +7,11 @@ var passport = require('passport');
 // const { authenticateUser } = require('../MicrosoftGraph/microsoftGraph');
 
 module.exports = {
-        authenticateUser: (req, res, next) => {
-          passport.authenticate('azuread-openidconnect',
+        authenticateUser: async (req, res, next) => {
+          console.log("Before redirecting");
+          // res.send("POST request to go to passport.authenticate");
+          console.log("should go to passport.authenticate now");
+          await passport.authenticate('azuread-openidconnect',
             {
               response: res,
               prompt: 'login',
@@ -16,23 +19,27 @@ module.exports = {
               failureFlash: true
             }
           )(req,res,next);
+          next();
         },
-
-        authenticateUser: (req, res) => {
+        authenticateUserRedirect: (req, res) => {
+          console.log("passport.authenticate callback");
           res.redirect('/');
         },
 
-        callback: (req, res, next) => {
-          passport.authenticate('azuread-openidconnect',
+        callback: async (req, res, next) => {
+          console.log("called callback");
+          await passport.authenticate('azuread-openidconnect',
             {
               response: res,
               failureRedirect: '/',
               failureFlash: true
             }
           )(req,res,next);
+          next();
         },
 
-        callback: (req, res) => {
+        callbackRedirect: (req, res) => {
+          console.log("callback redirect");
           // TEMPORARY!
           // Flash the access token for testing purposes
           req.flash('error_msg', {message: 'Access token', debug: req.user.accessToken});
