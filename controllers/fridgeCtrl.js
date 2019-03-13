@@ -69,7 +69,7 @@ module.exports = {
 
             const foodRm = await UserFood.remove({ _id: foodId });
 
-            const query = { _id: foodId };
+            const query = { _id: userId };
             const update = { $pull: { foodList: foodId }};
             const userFoodRm = await User.updateOne(
                 query,
