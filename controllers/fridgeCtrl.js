@@ -68,7 +68,7 @@ module.exports = {
             const { userId, foodIdList } = req.body;
 
             const query = { _id: userId };
-            for(let i = 0; i < foodIdLsit.length; i++){
+            for(let i = 0; i < foodIdList.length; i++){
                 const foodId = foodIdList[i];
                 const foodRm = await UserFood.remove({ _id: foodId });
 
