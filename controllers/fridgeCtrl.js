@@ -63,6 +63,33 @@ module.exports = {
             });
         }
     },
+    deleteMultipleFood: async(req, res) => {
+        try{
+            const { userId, foodIdList } = req.body;
+
+            foodIdList.foreach(foodId => {
+                const foodRm = await UserFood.remove({ _id: foodId });
+            });
+
+            const query = { _id: userId };
+            foodIdList.foreach(foodId => {
+                const update = { $pull: { foodList: foodId }};
+                const userFoodRm = await User.updateOne(
+                    query,
+                    update
+                );
+            });
+
+            res.status(200).send({
+                response: 'Food successfully Deleted!'
+            });
+        }catch(err) {
+            res.status(409).send({
+                error: err.name,
+                message: err.message
+            });
+        }
+    },
     deleteFood: async(req, res) => {
         try{
             const { userId, foodId } = req.body;
