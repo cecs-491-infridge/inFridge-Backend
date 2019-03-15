@@ -67,18 +67,17 @@ module.exports = {
         try{
             const { userId, foodIdList } = req.body;
 
-            foodIdList.foreach(foodId => {
-                const foodRm = await UserFood.remove({ _id: foodId });
-            });
-
             const query = { _id: userId };
-            foodIdList.foreach(foodId => {
+            for(let i = 0; i < foodIdLsit.length; i++){
+                const foodId = foodIdList[i];
+                const foodRm = await UserFood.remove({ _id: foodId });
+
                 const update = { $pull: { foodList: foodId }};
                 const userFoodRm = await User.updateOne(
                     query,
                     update
                 );
-            });
+            }
 
             res.status(200).send({
                 response: 'Food successfully Deleted!'
