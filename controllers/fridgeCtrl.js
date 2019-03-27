@@ -8,20 +8,15 @@ module.exports = {
         try {
             const userId = req.params.id;
             
-            const foodList = await User.findById(userId)
-                .select('foodList')
-                .populate('foodList', ((err, user) => {
+            await User.findById(userId)
+                .populate('foodList', ((err, foodList) => {
                     if(err) throw new Error("Cannot populate User.foodList");
 
-                    return user.foodList;
+                    res.status(201).send({
+                        response: 'Successfully got food!',
+                        data: foodList
+                    });
                 }));
-                
-            console.log(foodList);
-
-            res.status(201).send({
-                response: 'Successfully got food!',
-                data: foodList
-            });
         }catch(err) {
             res.status(409).send({
                 error: err.name,

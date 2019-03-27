@@ -10,6 +10,12 @@ let TransactionSchema = new mongoose.Schema(
             enum: ['donate', 'trade', 'sell'],
             required: true
         },
+        comments: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref:'Comment'
+            }
+        ],
         buyer: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',

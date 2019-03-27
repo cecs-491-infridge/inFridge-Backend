@@ -78,8 +78,25 @@ module.exports = {
             }catch(err){
                 res.status(409).send(err);
             }
+        },
+        unlikePost: async(req, res) => {
+            try{
+                const { postId, userId } = req.body;
 
+                const query = { _id: postId };
+                const update = { $pull: { likes: userId } };
 
+                const data = await Post.updateOne(
+                    query,
+                    update
+                );
+
+                res.status(201).send(
+                    data
+                )
+            }catch(err){
+                res.status(409).send(err);
+            }
         },
 
         // TRANSACTIONS
