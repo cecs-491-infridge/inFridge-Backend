@@ -22,7 +22,9 @@ module.exports = {
                 console.log('getAllPosts')
                 const allPosts = await Post.find({});
 
-                console.log('success')
+                console.log('success');
+
+		console.log(allPosts);
 
                 res.status(201).send({
                     data: allPosts
@@ -110,12 +112,12 @@ module.exports = {
             // Else res.status(403).send('Forbidden: Incorrect password');
 
             try {    
-                const { author, body, location, tradeType } = req.body;
+                const { author, body, longitude, latitude, tradeType } = req.body;
             
                 const transaction = new Transaction({
                     author,
                     body,
-                    location,
+                    location:{longitude,latitude},
                     tradeType
                 });
 
@@ -135,6 +137,7 @@ module.exports = {
                     data: save,
                 });
             }catch(err) {
+		    console.log(err);
                 res.status(409).send(err);
             }
         },

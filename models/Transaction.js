@@ -3,7 +3,6 @@ const { Post, discriminatorKey } = require('./Post');
 
 let TransactionSchema = new mongoose.Schema(
     {
-        location: { type: String, required: true },
         tradeType: {
             type: String,
             // Allowable values for tradeType
