@@ -3,13 +3,18 @@ const { Post, discriminatorKey } = require('./Post');
 
 let TransactionSchema = new mongoose.Schema(
     {
-        location: { type: String, required: true },
         tradeType: {
             type: String,
             // Allowable values for tradeType
             enum: ['donate', 'trade', 'sell'],
             required: true
         },
+        comments: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref:'Comment'
+            }
+        ],
         buyer: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',

@@ -24,6 +24,9 @@ module.exports = (router) => {
         .post(fridgeCtrl.createFood);
 
     router
+        .route('/delete-multiple-food')
+        .delete(fridgeCtrl.deleteMultipleFood);
+    router
         .route('/delete-food')
         .delete(fridgeCtrl.deleteFood);
 

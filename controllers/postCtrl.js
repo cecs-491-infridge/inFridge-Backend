@@ -22,7 +22,9 @@ module.exports = {
                 console.log('getAllPosts')
                 const allPosts = await Post.find({});
 
-                console.log('success')
+                console.log('success');
+
+		console.log(allPosts);
 
                 res.status(201).send({
                     data: allPosts
@@ -78,8 +80,25 @@ module.exports = {
             }catch(err){
                 res.status(409).send(err);
             }
+        },
+        unlikePost: async(req, res) => {
+            try{
+                const { postId, userId } = req.body;
 
+                const query = { _id: postId };
+                const update = { $pull: { likes: userId } };
 
+                const data = await Post.updateOne(
+                    query,
+                    update
+                );
+
+                res.status(201).send(
+                    data
+                )
+            }catch(err){
+                res.status(409).send(err);
+            }
         },
 
         // TRANSACTIONS
@@ -93,12 +112,12 @@ module.exports = {
             // Else res.status(403).send('Forbidden: Incorrect password');
 
             try {    
-                const { author, body, location, tradeType } = req.body;
+                const { author, body, longitude, latitude, tradeType } = req.body;
             
                 const transaction = new Transaction({
                     author,
                     body,
-                    location,
+                    location:{longitude,latitude},
                     tradeType
                 });
 
@@ -118,6 +137,7 @@ module.exports = {
                     data: save,
                 });
             }catch(err) {
+		    console.log(err);
                 res.status(409).send(err);
             }
         },

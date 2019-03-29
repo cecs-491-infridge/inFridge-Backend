@@ -11,6 +11,8 @@ const options = {
     timestamps: true
 }
 
+const locationSchema = require('./Location.js').Schema;
+
 let PostSchema = new mongoose.Schema(
     {
         author: {
@@ -25,21 +27,18 @@ let PostSchema = new mongoose.Schema(
                 ref: 'User'
             }
         ],
-        comments: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref:'Comment'
-            }
-        ]
+	location: locationSchema
     },
     options
 )
 
-// PostSchema.pre('save', function(next) {
-//     console.log('Post');
-//     console.log(options);
-//     next();
-//   });
+/*
+PostSchema.pre('save', function(next) {
+	console.log('Post');
+	console.log(options);
+	next();
+});
+*/
 
 // Returns
 // undefined on success and
