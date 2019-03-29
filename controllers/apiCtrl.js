@@ -34,7 +34,7 @@ module.exports = {
     
     searchRecipe: async(req, res) => {
         try{
-            let { search } = req.body;
+            let { search } = req.query;
             if(!search||search=="")
                 throw "Invalid search parameters"
             search = search.split(" ").join("+");
@@ -42,6 +42,7 @@ module.exports = {
             unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?number=10&query="+search)
                 .header("X-RapidAPI-Key", process.env.SPOON_TOKEN)
                 .end(function (result) {
+                    console.log(result);
 
 					if(result.status==200)
 						res.send(result.body);
@@ -54,6 +55,7 @@ module.exports = {
 
 
         }catch(err){
+            console.log(err);
             err = err.name ? {response: err.name,message: err.message} : {err}
 			res.status(404).send(err);
         }
