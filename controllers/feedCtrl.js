@@ -47,7 +47,7 @@ module.exports = {
             let bounds = getBounds(longitude,latitude,radius);
 
             /* Query posts within the bounds */
-            let posts = Post.find({
+            let posts = await Post.find({
                     "location.latitude": {$gte:bounds.minLat, $lte:bounds.maxLat},
                     "location.longitude": {$gte:bounds.minLon, $lte:bounds.maxLon}
                 })
