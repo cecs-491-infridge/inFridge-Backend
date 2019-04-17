@@ -4,6 +4,72 @@ const User = require('../models/User');
 const { authenticateUser } = require('../MicrosoftGraph/microsoftGraph');
 
 module.exports = {
+    requestFriend: async(req, res) =>  {
+	try {
+	    // Change this to use JWT
+            const { requestorId, userId } = req.body.requestorId;
+
+            // Add to User to Pending Friends list
+            const query = { _id: userId };
+            const update = { $push: { pendingFriends: requestorId } };
+            const pushToPendingFriends = await User.updateOne(
+                query,
+                update
+            );
+
+	    res.status(200).send({
+		data: pushToPendingFriends
+	    });
+
+	}catch(err) {
+	    console.log(err);
+	}
+    },
+    handleFriendRequest: async (req, res) => {
+	const { userId, requestorId, accept } = req.body;
+
+	const query = { _id: userId };
+        const queryUser = { _id: userId };
+        const queryRequestor = { _id: requestorId };
+        const pullFromUser = { $pull: { pendingFriends: requestorId } };
+        let update;
+
+        if(accept) {
+            // Remove requestor from pending list
+            // Add friend to User
+            update = {
+                ...pullFromUser,
+                $push: { friendsList: requestorId }
+            };
+            const pushToUserFriendsList = await User.updateOne(
+                queryUser,
+                update
+            );
+
+            // Add user to Requestor friends list
+            const pushToRequestorFriendsList = await User.updateOne(
+              queryRequestor,
+              { $push: { friendsList: userId } }
+            );    
+            
+            res.status(200).send({
+              data: {
+                ...pushToUserFriendsList,
+                ...pushToRequestorFriendsList
+              }
+            });
+        }else {
+            // Remove requestor from pending list
+            const pullFromUserFriendsList = await User.updateOne(
+              queryUser,
+              pullFromUser
+            );
+
+            res.status(200).send({
+              data: pullFromUserFriendsList
+            })
+        }
+    },
     // Probably get id from login service
     createUser: async(req, res) => {
         try{

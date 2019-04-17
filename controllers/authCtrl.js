@@ -5,8 +5,8 @@ var passport = require('passport');
 
 const credentials = {
   client: {
-    id: process.env.APP_ID,
-    secret: process.env.APP_PASSWORD,
+    id: process.env.OAUTH_APP_ID,
+    secret: process.env.OAUTH_APP_PASSWORD,
   },
   auth: {
     tokenHost: 'https://login.microsoftonline.com',
@@ -23,7 +23,8 @@ const oauth2 = require('simple-oauth2').create(credentials);
 
 module.exports = {
         authenticateUser: async (req, res) => {
-          // console.log("Before redirecting");
+            console.log(oauth2);
+            // console.log("Before redirecting");
           // // res.send("POST request to go to passport.authenticate");
           // console.log("should go to passport.authenticate now");
           // await passport.authenticate('azuread-openidconnect',
@@ -35,12 +36,16 @@ module.exports = {
           //   }
           // )(req,res,next);
           // next();
-          const returnVal = oauth2.authorizationCode.authorizeURL({
-            redirect_uri: process.env.REDIRECT_URI,
-            scope: process.env.APP_SCOPES
+          const authURL = oauth2.authorizationCode.authorizeURL({
+            redirect_uri: process.env.OAUTH_REDIRECT_URI,
+            scope: process.env.OAUTH_SCOPES
           });
-          console.log(`Generated auth url: ${returnVal}`);
-          return returnVal;
+          //res.redirect(authorizationUri);
+          res.send({
+              authURL
+          });
+          console.log(`Generated auth url: ${authURL}`);
+          //return returnVal;
         },
         // authenticateUserRedirect: (req, res) => {
         //   console.log("passport.authenticate callback");

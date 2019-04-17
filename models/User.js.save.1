@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 let UserSchema = new mongoose.Schema(
@@ -22,12 +23,6 @@ let UserSchema = new mongoose.Schema(
         //         type: mongoose.Schema.Types.ObjectId,
         //         ref: 'Fridge'
         //     },
-	pendingFriends: [
-	    {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	    }
-	],
         friends: [
             {
                 type: mongoose.Schema.Types.ObjectId,

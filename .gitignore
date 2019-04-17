@@ -81,3 +81,7 @@ tags
 
 #Graph API
 .env
+
+#Open SSL
+fullchain.pem
+privkey.pem
