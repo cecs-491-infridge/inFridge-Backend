@@ -1,5 +1,6 @@
 const util = require('../utility/responses');
 const User = require('../models/User');
+const Request = require('request');
 
 var passport = require('passport');
 
@@ -24,53 +25,40 @@ const oauth2 = require('simple-oauth2').create(credentials);
 module.exports = {
         authenticateUser: async (req, res) => {
             console.log(oauth2);
-            // console.log("Before redirecting");
-          // // res.send("POST request to go to passport.authenticate");
-          // console.log("should go to passport.authenticate now");
-          // await passport.authenticate('azuread-openidconnect',
-          //   {
-          //     response: res,
-          //     prompt: 'login',
-          //     failureRedirect: '/',
-          //     failureFlash: true
-          //   }
-          // )(req,res,next);
-          // next();
-          const authURL = oauth2.authorizationCode.authorizeURL({
-            redirect_uri: process.env.OAUTH_REDIRECT_URI,
-            scope: process.env.OAUTH_SCOPES
-          });
-          //res.redirect(authorizationUri);
-          res.send({
+          
+            const authURL = oauth2.authorizationCode.authorizeURL({
+                redirect_uri: process.env.OAUTH_REDIRECT_URI,
+                scope: process.env.OAUTH_SCOPES
+            });
+            
+            res.send({
               authURL
-          });
-          console.log(`Generated auth url: ${authURL}`);
-          //return returnVal;
+            });
+            console.log(`Generated auth url: ${authURL}`);
         },
-        // authenticateUserRedirect: (req, res) => {
-        //   console.log("passport.authenticate callback");
-        //   res.redirect('/');
-        // },
 
-        // callback: async (req, res, next) => {
-        //   console.log("called callback");
-        //   await passport.authenticate('azuread-openidconnect',
-        //     {
-        //       response: res,
-        //       failureRedirect: '/',
-        //       failureFlash: true
-        //     }
-        //   )(req,res,next);
-        //   next();
-        // },
+        verifyToken: async (req,res) => {
 
-        // callbackRedirect: (req, res) => {
-        //   console.log("callback redirect");
-        //   // TEMPORARY!
-        //   // Flash the access token for testing purposes
-        //   req.flash('error_msg', {message: 'Access token', debug: req.user.accessToken});
-        //   res.redirect('/');
-        // },
+            let authToken = req.body.code;
+            console.log(authToken);
+
+            // Verify auth token here
+
+            Request({
+                headers: {
+                    "Authorization":`Bearer ${authToken}`,
+                    "Host":"graph.microsoft.com"
+                },
+                uri: 'https://graph.microsoft.com/v1.0/me',
+                method: 'GET'
+            }, function (err, res, body) {
+                if(err) console.error(err);
+                console.log(res);
+                                    
+            });
+
+
+        },
 
         signIn: (req, res) => {
               //{ id, password } = req.body;

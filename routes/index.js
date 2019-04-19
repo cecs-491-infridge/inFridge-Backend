@@ -4,6 +4,7 @@ const user = require('./user');
 const auth = require('./auth');
 const api = require('./api');
 const feed = require('./feed');
+const chat = require('./chat');
 
 module.exports = (router) => {
     fridge(router);
@@ -12,5 +13,5 @@ module.exports = (router) => {
     auth(router);
     api(router);
     feed(router);
-	
+	chat(router);
 }

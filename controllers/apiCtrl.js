@@ -5,16 +5,12 @@ module.exports = {
 	/* Get recipe from given ingredients */
 	getRecipe: async(req, res) => {
 		try{
-			/* List of ingredients in an array */
-            let ingredients = ["apples","flour","sugar"];
-			/* Number of results to return */
-			let num = 5;
-			/* Ranking...? not sure, default is 1 */
-			let ranking = 1;
+            let { id } = req.query;
 
-			unirest.get(`${spoonURL}/recipes/findByIngredients?number=${num}&ranking=${ranking}&fillIngredients=true&ingredients=${ingredients}`)
-				.header("X-RapidAPI-Key", process.env.SPOON_TOKEN)
-				.end(function (result) {
+            unirest.get(`${spoonURL}/recipes/${id}/information?includeNutrition=true`)
+                .header("X-RapidAPI-Key", process.env.SPOON_TOKEN)
+                //.header("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+                .end(function (result) {
 					/* Make sure we fetched results correctly */
 					if(result.status==200)
 						res.send(result.body);
@@ -23,7 +19,9 @@ module.exports = {
 
 					/* Lets print out remaining api requests for today */
 					console.log(`Remaining Spoon Requests: ${result.headers['x-ratelimit-requests-remaining']}\nRemaining Spoon Results: ${result.headers['x-ratelimit-results-remaining']}`);
-			});
+
+                });
+
 		}catch(err){
 			res.status(404).send({
 				response: err.name,

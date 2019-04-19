@@ -6,6 +6,9 @@ module.exports = (router) => {
         // .post(authCtrl.authenticateUser, authCtrl.authenticateUserRedirect);
         .post(authCtrl.authenticateUser);
 
+    router
+        .route('/verify-token')
+        .post(authCtrl.verifyToken);
     // router
     //     .route('/callback')
     //     .post(authCtrl.callback, authCtrl.callbackRedirect);

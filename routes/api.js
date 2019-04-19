@@ -2,7 +2,7 @@ const apiCtrl = require('../controllers/apiCtrl');
 
 module.exports = (router) => {
     router
-        .route(':id/get-recipe')
+        .route('/get-recipe')
         .get(apiCtrl.getRecipe);
 
     router
