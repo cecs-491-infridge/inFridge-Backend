@@ -111,21 +111,29 @@ module.exports = {
             // Do below----
             // Else res.status(403).send('Forbidden: Incorrect password');
 
-            try {    
-                const { author, body, longitude, latitude, tradeType } = req.body;
+            // Grab userId, provided by login middleware
+            const userId = req.user._id;
+            // Grab Transaction and image data from req
+            // Added by multer and aws middleware
+            const transactionId = req.ids[0];
+            const imageUrl = req.awsUrls[0];
+
+            try {
+                const { body, longitude, latitude, tradeType } = req.body;
             
                 const transaction = new Transaction({
-                    author,
+                    _id: transactionId,
                     body,
                     location:{longitude,latitude},
-                    tradeType
+                    tradeType,
+                    imageUrl
                 });
 
                 // Save Transaction
                 const save = await transaction.save();
                 
                 // Save to User
-                const query = { _id: author };
+                const query = { _id: userId };
                 const update = { $push: { posts: transaction._id } }
                 await User.updateOne(    
                     query,

@@ -2,6 +2,7 @@ const util = require('../utility/responses');
 const User = require('../models/User');
 const Request = require('request');
 
+const jwtSigner = require('../util/jwt');
 var passport = require('passport');
 
 const credentials = {
@@ -23,6 +24,24 @@ const oauth2 = require('simple-oauth2').create(credentials);
 
 
 module.exports = {
+        loginTest: async(req, res) => {
+            const userId = req.body;
+    
+            try {
+                // Find User, create JWT from user id
+                let userDoc = await User.findById(userId).select('_id');
+                jwtSigner.createAndSendToken(
+                    {
+                        user: {
+                            _id: userDoc._id
+                        }
+                    }, res);
+
+            }catch(err) {
+                console.log(err);
+                res.status(502).send(err);
+            }
+        },
         authenticateUser: async (req, res) => {
             console.log(oauth2);
           

@@ -15,19 +15,24 @@ const locationSchema = require('./Location.js').Schema;
 
 let PostSchema = new mongoose.Schema(
     {
+        _id: mongoose.Schema.Types.ObjectId,
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true
         },
         body: { type: String, required: true, minlength: 1 },
+        imageUrl: {
+            type: String,
+            required: true
+        },
         likes: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User'
             }
         ],
-	location: locationSchema
+	    location: locationSchema
     },
     options
 )

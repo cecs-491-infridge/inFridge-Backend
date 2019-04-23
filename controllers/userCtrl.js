@@ -26,9 +26,8 @@ module.exports = {
 	}
     },
     handleFriendRequest: async (req, res) => {
-	const { userId, requestorId, accept } = req.body;
+	    const { userId, requestorId, accept } = req.body;
 
-	const query = { _id: userId };
         const queryUser = { _id: userId };
         const queryRequestor = { _id: requestorId };
         const pullFromUser = { $pull: { pendingFriends: requestorId } };

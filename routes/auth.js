@@ -2,6 +2,10 @@ const authCtrl = require('../controllers/authCtrl');
 
 module.exports = (router) => {
     router
+        .route('/login-test')
+        .post(authCtrl.loginTest);
+
+    router
         .route('/authenticate-user')
         // .post(authCtrl.authenticateUser, authCtrl.authenticateUserRedirect);
         .post(authCtrl.authenticateUser);
