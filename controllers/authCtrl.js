@@ -2,7 +2,7 @@ const util = require('../utility/responses');
 const User = require('../models/User');
 const Request = require('request');
 
-const jwtSigner = require('../util/jwt');
+const jwtSigner = require('../utility/jwt');
 var passport = require('passport');
 
 const credentials = {
