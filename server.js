@@ -12,7 +12,7 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { login }     = require('./util/customMiddleware');
+const { login }     = require('../util/customMiddleware');
 
 // MODELS
 const User = require('./models/User');
