@@ -28,11 +28,12 @@ io.on("connection", socket => {
 
 });
 
-exports.send = function(from, msg, to){
+exports.send = function(from, msg, time, to){
     let socket = sockets[to];
     if(!socket) return;
+    console.log("socket emit message to: "+to);
 
-    socket.emit('message',{from,msg});
+    socket.emit('message',{from,msg,time});
 }
 
 http.listen(port, () => console.log(`SocketIO listening on port ${port}`));
