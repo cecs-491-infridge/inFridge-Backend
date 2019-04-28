@@ -103,7 +103,7 @@ module.exports = {
                 let user = await User.findOne({name:username,password});
                 console.log(user);
 
-                if(user.length>0){
+                if(user){
                     const data = {
                         userId: user._id,
                         token: await jwtSigner.createToken(
