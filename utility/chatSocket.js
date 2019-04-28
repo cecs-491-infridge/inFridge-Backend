@@ -11,19 +11,21 @@ io.on("connection", socket => {
     // Add to our our sockets list
     socket.on("init",function(data){
         let { id } = data;
-        sockets[id] = socket;
+        if(!sockets[id]) sockets[id] = {};
+        sockets[id][socket.id] = socket;
     });
 
     // Delete from our sockets list
+    // this is O(n^2) but who cares c:
     socket.on("disconnect",()=>{
         for(let i in sockets){
-            if(sockets[i]===socket){
-                delete sockets[i];
-                return;
+            for(let j in sockets[i]){
+                if(sockets[i][j]===socket){
+                    delete sockets[i][j];
+                    return;
+                }
             }
-
         }
-
     });
 
 });
@@ -33,7 +35,9 @@ exports.send = function(from, msg, time, to){
     if(!socket) return;
     console.log("socket emit message to: "+to);
 
-    socket.emit('message',{from,msg,time});
+    for(let i in socket){
+        socket[i].emit('message',{from,msg,time});
+    }
 }
 
 http.listen(port, () => console.log(`SocketIO listening on port ${port}`));

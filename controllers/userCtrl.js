@@ -72,13 +72,8 @@ module.exports = {
     // Probably get id from login service
     createUser: async(req, res) => {
         try{
-            const { studentId, studentPassword, userName, userPassword } = req.body;
+            const { username, password } = req.body;
 
-            // Authenticate student id and password with Graph API
-            // Call Auth route at authenticateUser:
-            const authKey = authenticateUser(studentId, studentPassword);
-            // Not authenticated
-            if(!authKey) throw new Error("Not authenticated");
 
             // Encrypt password maybe?
             //The key is stored:
@@ -89,12 +84,13 @@ module.exports = {
 //2 attacks:
 //1. when the user sends to the server the key and other stuff
 //2. on the db to get all the user data
+//
+            let user = await User.find({ name:username });
+            if(user.length) return res.status(403).send('Username already exists');
 
-
-            const user = new User({
-                userName,
-                userPassword,
-                userKey
+            user = new User({
+                name: username,
+                password
             });
 
             //saving user to database
@@ -103,7 +99,6 @@ module.exports = {
             res.status(201).send({
                 message: 'User successfully Saved!',
                 data: newUser,
-                authKey //if they're called the same thing, no need for colon
             });
         }catch(err) {
             console.log(err.name+'\n');

@@ -25,7 +25,7 @@ const oauth2 = require('simple-oauth2').create(credentials);
 
 module.exports = {
         loginTest: async(req, res) => {
-            const userId = req.body;
+            const { userId } = req.body;
     
             try {
                 // Find User, create JWT from user id
@@ -62,31 +62,61 @@ module.exports = {
             console.log(authToken);
 
             // Verify auth token here
+            const tokenConfig = {
+                code: authToken,
+                redirect_uri: 'https://school.corg.network:3002/graph-response',
+                scope: process.env.OAUTH_SCOPES
+            };
 
-            Request({
-                headers: {
-                    "Authorization":`Bearer ${authToken}`,
-                    "Host":"graph.microsoft.com"
-                },
-                uri: 'https://graph.microsoft.com/v1.0/me',
-                method: 'GET'
-            }, function (err, res, body) {
-                if(err) console.error(err);
-                console.log(res);
-                                    
-            });
-
-
+            try {
+                const result = await oauth2.authorizationCode.getToken(tokenConfig)
+                const accessToken = oauth2.accessToken.create(result);
+                console.log("accessToken:");
+                console.log(accessToken);
+                res.send(200); 
+            } catch (error) {
+                console.log('Access Token Error', error.message);
+                res.send(400);
+            }
         },
 
-        signIn: (req, res) => {
-              //{ id, password } = req.body;
-              const authKey = authenticateUser(id, password);
+        verifyUsername: async (req, res) => {
+           try {
+            const { username } = req.body;
+            console.log("USERNAME:");
+            console.log(username);
+            const user = await User.find({ username });
+            console.log("USERRRRRRRRRR:");
+            console.log(user);
+            if(user.length) return res.status(403).send('Username already exists');
+            else res.status(200).send('Username is available');
 
-              res.status(201).send({
-                  message: 'User successfully logged in',
-                  authKey //if they're called the same thing, no need for colon
-              });
+           } catch (err){
+                console.log(err);
+           }
+        },
+
+        loginUser: async (req, res) => {
+            try {
+                let  { username, password } = req.body;
+
+                let user = await User.find({name:username,password});
+                console.log(user);
+
+                if(user.length>0){
+                    res.status(201).send({
+			userId: user._id,
+			token: 'a'
+		    });
+                }else{
+                    res.status(400).send({
+                        error:"Invalid credentials"
+                    });
+                }
+            } catch(err){
+                console.log(err);
+                res.status(400).send({error:"Invalid credentials"});
+            }
 
         },
 
