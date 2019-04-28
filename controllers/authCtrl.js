@@ -100,7 +100,7 @@ module.exports = {
             try {
                 let  { username, password } = req.body;
 
-                let user = await User.find({name:username,password});
+                let user = await User.findOne({name:username,password});
                 console.log(user);
 
                 if(user.length>0){
