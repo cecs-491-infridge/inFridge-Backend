@@ -11,6 +11,10 @@ module.exports = (router) => {
         .post(authCtrl.authenticateUser);
 
     router
+        .route('/verify-username')
+        .post(authCtrl.verifyUsername);
+
+    router
         .route('/verify-token')
         .post(authCtrl.verifyToken);
     // router
@@ -18,8 +22,8 @@ module.exports = (router) => {
     //     .post(authCtrl.callback, authCtrl.callbackRedirect);
 
     router
-        .route('/signin')
-        .post(authCtrl.signIn);
+        .route('/login-user')
+        .post(authCtrl.loginUser);
 
     router
         .route('/signout')
