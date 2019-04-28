@@ -7,6 +7,7 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
+const path = require('path');
 const idConstructor = require('mongoose').Types.ObjectId;
 
 module.exports = {
@@ -16,6 +17,8 @@ module.exports = {
 	login: async (req, res, next) => {
         const { token } = req.body;
 
+        console.log(req.body)
+
         // No attempt to login
         if(!token) {
             console.log('Did not log in');
@@ -23,17 +26,19 @@ module.exports = {
         }
 
         try{
+            console.log('about to verify')
             const payload = await verifyToken(token);
             console.log('Login Middleware');
             console.log(payload);
 
             // Logged in
-            if(payload.user) {
+            if(payload && payload.user) {
                 console.log('Successfully logged in');
                 req.user = payload.user;
             }else {
             // Invalid attempt to login
                 console.log('Could not Log in');
+                return res.status(500).send('Could not verify JWT');
             }
         }catch(err) {
             console.log(err);
@@ -41,7 +46,7 @@ module.exports = {
         
         // Always call next()
         console.log('Calling next from login middleware');
-        next();
+        return next();
 	},
     loggedIn: (req, res, next) => {
         if (req.user) {
@@ -62,9 +67,19 @@ module.exports = {
     
         }
         const multipleUpload = multer({
-                storage,
-                limits
-            }).array('file');
+            storage,
+            limits,
+            fileFilter: function (req, file, cb) {
+                var filetypes = /jpeg|jpg/;
+                var mimetype = filetypes.test(file.mimetype);
+                var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+            
+                if (mimetype && extname) {
+                  return cb(null, true);
+                }
+                cb(null, false);
+            }
+        }).array('file');
     
         return multipleUpload;
     },
@@ -74,21 +89,32 @@ module.exports = {
         const storage = multer.memoryStorage();
         const limits = {
             fileSize: maxMegabytes * MB_SIZE,
-            fields: maxFields,
-    
+            fields: maxFields
         }
         const singleUpload = multer({
                 storage,
-                limits
+                limits,
+                fileFilter: function (req, file, cb) {
+                    var filetypes = /jpeg|jpg/;
+                    var mimetype = filetypes.test(file.mimetype);
+                    var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+                
+                    if (mimetype && extname) {
+                      return cb(null, true);
+                    }
+                    cb(null, false);
+                }
             }).single('file');
     
         return singleUpload;
     },
     uploadToAws: async(req, res, next) => {
         const bucketName = 'infridge-backend';
-        const userId = req.user.id;
+        // const userId = req.user.id;
 
+        console.log('In AWS')
         console.log(req.body);
+        console.log(req.file)
 
         // Get files
         // File was added by multer middleware
@@ -100,11 +126,14 @@ module.exports = {
                 name: req.file.originalname
             }];
         }
-        else {
+        else if(req.files){
             files = req.files.map(file => ({
                 buffer: file.buffer,
                 name: file.originalname
             }));
+        }else{
+            console.log('No image file found');
+            return next();
         }
 
         // Create id for file

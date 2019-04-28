@@ -25,7 +25,8 @@ const oauth2 = require('simple-oauth2').create(credentials);
 
 module.exports = {
         loginTest: async(req, res) => {
-            const userId = req.body;
+            console.log('in')
+            const { userId } = req.body;
     
             try {
                 // Find User, create JWT from user id

@@ -111,15 +111,18 @@ module.exports = {
             // Do below----
             // Else res.status(403).send('Forbidden: Incorrect password');
 
-            // Grab userId, provided by login middleware
-            const userId = req.user._id;
-            // Grab Transaction and image data from req
-            // Added by multer and aws middleware
-            const transactionId = req.ids[0];
-            const imageUrl = req.awsUrls[0];
-
+            
             try {
+                // Grab userId, provided by login middleware
+                const userId = req.user._id;
+                // Grab Transaction and image data from req
+                // Added by multer and aws middleware
+                const transactionId = req.ids;
+                const imageUrl = req.awsUrls;
+
                 const { body, longitude, latitude, tradeType } = req.body;
+
+                if(!imageUrl && !body || !longitude && !latitude) return res.status(400).send("Please include an Image OR Desciption AND please set your location");
             
                 const transaction = new Transaction({
                     _id: transactionId,

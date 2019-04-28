@@ -34,7 +34,7 @@ module.exports = (router) => {
     router
         .route('/create-transaction')
         .post(
-            loggedIn,
+            // loggedIn,
             exposeSingleFile,
             uploadToAws,
             postCtrl.createTransaction
