@@ -104,7 +104,7 @@ module.exports = {
                 console.log(user);
 
                 if(user.length>0){
-                    res.status(201).send({
+                    const data = {
                         userId: user._id,
                         token: await jwtSigner.createToken(
                             {
@@ -112,7 +112,10 @@ module.exports = {
                                     _id: user._id
                                 }
                             })
-                    });
+                    };
+
+                    console.log(data);
+                    res.status(201).send(data);
                 }else{
                     res.status(400).send({
                         error:"Invalid credentials"
