@@ -51,16 +51,35 @@ PostSchema.pre('save', function(next) {
 // Returns
 // undefined on success and
 // err on error
-PostSchema.statics.likePost = async function(postId, userId) {
-    const query = { _id: postId }
-        , update = { $push: { likes: userId } };
+PostSchema.statics.likePost = async function(userId, postId) {
+    const query = { _id: postId };
+    let update;
 
-    try{
-        await this.updateOne(
+    console.log('in')
+    
+    try {
+        let post = await this.findById(postId);
+        console.log(post)
+        // Dislike
+        if(post.likes.some(id => id.equals(userId))) {
+            console.log(1)
+            update = { $pull: { likes: userId } };
+        } 
+        // Like
+        else{
+            console.log(2)
+            update = { $push: { likes: userId } };
+        } 
+
+        result = await this.updateOne(
             query,
             update
         );
+
+        return result;
     }catch(err) {
+        console.log(err)
+
         return err;
     }
 }

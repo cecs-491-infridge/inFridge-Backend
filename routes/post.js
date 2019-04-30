@@ -26,9 +26,6 @@ module.exports = (router) => {
     router
         .route('/like-post')
         .post(postCtrl.likePost);
-    router
-        .route('/unlike-post')
-        .post(postCtrl.unlikePost);
 
     // TRANSACTIONS
     router

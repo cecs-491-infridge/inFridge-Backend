@@ -63,43 +63,56 @@ module.exports = {
         },
 
         likePost: async(req, res) => {
-            try{
-                const { postId, userId } = req.body;
+            const userId = req.user._id;
+            const { postId } = req.body;
 
-                const query = { _id: postId };
-                const update = { $push: { likes: userId } };
+            try {
+                const response = await Post.likePost(userId, postId);
 
-                const data = await Post.updateOne(
-                    query,
-                    update
-                );
+                res.status(200).send(response);
 
-                res.status(201).send(
-                    data
-                )
-            }catch(err){
-                res.status(409).send(err);
+            }catch(err) {
+                res.status(400).send(err);
             }
         },
-        unlikePost: async(req, res) => {
-            try{
-                const { postId, userId } = req.body;
+        // likePost: async(req, res) => {
+        //     try{
+        //         const { postId, userId } = req.body;
 
-                const query = { _id: postId };
-                const update = { $pull: { likes: userId } };
+        //         const query = { _id: postId };
+        //         const update = { $push: { likes: userId } };
 
-                const data = await Post.updateOne(
-                    query,
-                    update
-                );
+        //         const data = await Post.updateOne(
+        //             query,
+        //             update
+        //         );
 
-                res.status(201).send(
-                    data
-                )
-            }catch(err){
-                res.status(409).send(err);
-            }
-        },
+        //         res.status(201).send(
+        //             data
+        //         )
+        //     }catch(err){
+        //         res.status(409).send(err);
+        //     }
+        // },
+        // unlikePost: async(req, res) => {
+        //     try{
+        //         const { postId, userId } = req.body;
+
+        //         const query = { _id: postId };
+        //         const update = { $pull: { likes: userId } };
+
+        //         const data = await Post.updateOne(
+        //             query,
+        //             update
+        //         );
+
+        //         res.status(201).send(
+        //             data
+        //         )
+        //     }catch(err){
+        //         res.status(409).send(err);
+        //     }
+        // },
 
         // TRANSACTIONS
         createTransaction: async(req, res) => {
