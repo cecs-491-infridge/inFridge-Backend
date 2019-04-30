@@ -22,10 +22,13 @@ let PostSchema = new mongoose.Schema(
             required: true
         },
         body: { type: String, required: true, minlength: 1 },
-        imageUrl: {
-            type: String,
-            required: true
-        },
+        imageUrl: String,
+        comments: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref:'Comment'
+            }
+        ],
         likes: [
             {
                 type: mongoose.Schema.Types.ObjectId,

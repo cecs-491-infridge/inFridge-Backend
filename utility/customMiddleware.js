@@ -17,8 +17,6 @@ module.exports = {
 	login: async (req, res, next) => {
         const { token } = req.body;
 
-        console.log(req.body)
-
         // No attempt to login
         if(!token) {
             console.log('Did not log in');
@@ -109,12 +107,12 @@ module.exports = {
         return singleUpload;
     },
     uploadToAws: async(req, res, next) => {
-        const bucketName = 'infridge-backend';
-        // const userId = req.user.id;
+        const bucketName = 'closet-backend';
+        const userId = req.user.id;
 
         console.log('In AWS')
         console.log(req.body);
-        console.log(req.file)
+        // console.log(req.file)
 
         // Get files
         // File was added by multer middleware

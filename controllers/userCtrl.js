@@ -7,11 +7,11 @@ module.exports = {
     requestFriend: async(req, res) =>  {
 	try {
 	    // Change this to use JWT
-            const { requestorId, userId } = req.body.requestorId;
+            const { userId, senderId } = req.body;
 
             // Add to User to Pending Friends list
             const query = { _id: userId };
-            const update = { $push: { pendingFriends: requestorId } };
+            const update = { $push: { pendingFriends: senderId } };
             const pushToPendingFriends = await User.updateOne(
                 query,
                 update
@@ -26,19 +26,19 @@ module.exports = {
 	}
     },
     handleFriendRequest: async (req, res) => {
-	    const { userId, requestorId, accept } = req.body;
+	    const { userId, senderId, accept } = req.body;
 
         const queryUser = { _id: userId };
-        const queryRequestor = { _id: requestorId };
-        const pullFromUser = { $pull: { pendingFriends: requestorId } };
+        const querySender = { _id: senderId };
+        const pullFromUser = { $pull: { pendingFriends: senderId } };
         let update;
 
-        if(accept) {
+        if(accept === "accept") {
             // Remove requestor from pending list
             // Add friend to User
             update = {
                 ...pullFromUser,
-                $push: { friendsList: requestorId }
+                $push: { friends: senderId }
             };
             const pushToUserFriendsList = await User.updateOne(
                 queryUser,
@@ -47,27 +47,29 @@ module.exports = {
 
             // Add user to Requestor friends list
             const pushToRequestorFriendsList = await User.updateOne(
-              queryRequestor,
-              { $push: { friendsList: userId } }
+              querySender,
+              { $push: { friends: userId } }
             );    
             
-            res.status(200).send({
+            return res.status(200).send({
               data: {
                 ...pushToUserFriendsList,
                 ...pushToRequestorFriendsList
               }
             });
-        }else {
+        }else if(accept === "deny") {
             // Remove requestor from pending list
             const pullFromUserFriendsList = await User.updateOne(
               queryUser,
               pullFromUser
             );
 
-            res.status(200).send({
+            return res.status(200).send({
               data: pullFromUserFriendsList
             })
         }
+
+        res.status(400).send("Please sepecify a variable 'accept' with a value of either 'accept' or 'deny'")
     },
     // Probably get id from login service
     createUser: async(req, res) => {

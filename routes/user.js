@@ -11,6 +11,10 @@ module.exports = (router) => {
         .get(userCtrl.getUser);
 
     router
-        .route('/all-users')
-        .get(userCtrl.getAllUsers);
+        .route('/request-friend')
+        .post(userCtrl.requestFriend);
+
+    router
+        .route('/handle-friend-request')
+        .post(userCtrl.handleFriendRequest);
 }

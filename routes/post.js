@@ -1,5 +1,5 @@
 const postCtrl = require('../controllers/postCtrl');
-const { loggedIn, uploadToAws } = require('../utility/customMiddleware');
+const { login, loggedIn, uploadToAws } = require('../utility/customMiddleware');
 
 const maxFileSize = 2;
 const maxFields = 3;
@@ -34,10 +34,21 @@ module.exports = (router) => {
     router
         .route('/create-transaction')
         .post(
-            // loggedIn,
             exposeSingleFile,
+            login,
+            loggedIn,
             uploadToAws,
             postCtrl.createTransaction
+        );
+
+    router
+        .route('/create-status-post')
+        .post(
+            exposeSingleFile,
+            login,
+            loggedIn,
+            uploadToAws,
+            postCtrl.createStatusPost
         );
 
     router

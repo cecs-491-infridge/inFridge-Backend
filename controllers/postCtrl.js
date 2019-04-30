@@ -103,26 +103,19 @@ module.exports = {
 
         // TRANSACTIONS
         createTransaction: async(req, res) => {
-            // console.log(req.body);
-            
-            // FOR FUTURE AUTHENTICATION
-            // const password = decrypt(User.password)
-            // if(req.password === password)
-            // Do below----
-            // Else res.status(403).send('Forbidden: Incorrect password');
-
-            
             try {
                 // Grab userId, provided by login middleware
                 const userId = req.user._id;
                 // Grab Transaction and image data from req
                 // Added by multer and aws middleware
-                const transactionId = req.ids;
-                const imageUrl = req.awsUrls;
+                const transactionId = req.ids[0];
+                const imageUrl = req.awsUrls[0];
 
                 const { body, longitude, latitude, tradeType } = req.body;
 
-                if(!imageUrl && !body || !longitude && !latitude) return res.status(400).send("Please include an Image OR Desciption AND please set your location");
+                console.log(req.body);
+
+                if(!imageUrl && !body || !longitude && !latitude) return res.status(400).send("Please include at least an Image OR Desciption AND please set your location");
             
                 const transaction = new Transaction({
                     _id: transactionId,
@@ -138,6 +131,47 @@ module.exports = {
                 // Save to User
                 const query = { _id: userId };
                 const update = { $push: { posts: transaction._id } }
+                await User.updateOne(    
+                    query,
+                    update
+                );
+
+                // Success!
+                res.status(201).send({
+                    data: save,
+                });
+            }catch(err) {
+		    console.log(err);
+                res.status(409).send(err);
+            }
+        },
+        createStatusPost: async(req, res) => {
+            try {
+                // Grab userId, provided by login middleware
+                const userId = req.user._id;
+                // Grab Transaction and image data from req
+                // Added by multer and aws middleware
+                const postId = req.ids[0];
+                const imageUrl = req.awsUrls[0];
+
+                const { body } = req.body;
+
+                console.log(req.body);
+
+                if(!imageUrl && !body) return res.status(400).send("Please include at least an Image OR Desciption");
+            
+                const post = new Post({
+                    _id: postId,
+                    body,
+                    imageUrl
+                });
+
+                // Save Post
+                const save = await post.save();
+                
+                // Save to User
+                const query = { _id: userId };
+                const update = { $push: { posts: post._id } }
                 await User.updateOne(    
                     query,
                     update
@@ -187,7 +221,8 @@ module.exports = {
 
         createComment: async(req, res) => {
             try{
-                const { author, postId, body } = req.body;
+                const author = req.user._id;
+                const { postId, body } = req.body;
                 const comment = new Comment({
                     author,
                     body
