@@ -60,8 +60,10 @@ PostSchema.statics.likePost = async function(userId, postId) {
     try {
         let post = await this.findById(postId);
         console.log(post)
+        const alreadyLiked = post.likes.some(id => id ? id.equals(userId) : false);
+
         // Dislike
-        if(post.likes.some(id => id.equals(userId))) {
+        if(alreadyLiked) {
             console.log(1)
             update = { $pull: { likes: userId } };
         } 
