@@ -107,8 +107,8 @@ module.exports = {
         return singleUpload;
     },
     uploadToAws: async(req, res, next) => {
-        const bucketName = 'closet-backend';
-        const userId = req.user.id;
+        const bucketName = 'infridge-backend-chris';
+        const userId = req.user._id;
 
         console.log('In AWS')
         console.log(req.body);
