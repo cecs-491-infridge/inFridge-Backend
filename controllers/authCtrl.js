@@ -106,6 +106,7 @@ module.exports = {
                 if(user){
                     const data = {
                         userId: user._id,
+			username: user.name,
                         token: await jwtSigner.createToken(
                             {
                                 user: {

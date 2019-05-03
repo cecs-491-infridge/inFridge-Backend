@@ -17,4 +17,7 @@ module.exports = (router) => {
     router
         .route('/handle-friend-request')
         .post(userCtrl.handleFriendRequest);
+    router
+        .route('/get-all-users')
+        .get(userCtrl.getAllUsers);
 }

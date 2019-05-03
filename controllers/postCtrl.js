@@ -206,6 +206,7 @@ module.exports = {
             try{
                 const userId = req.user._id;
                 const username = req.user.name;
+                console.log(req.user)
 
                 const { postId, body } = req.body;
                 const comment = new Comment({
