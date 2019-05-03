@@ -111,7 +111,14 @@ module.exports = {
                 
                 // Save to User
                 const query = { _id: userId };
-                const update = { $push: { posts: transaction._id } }
+                const update = {
+                    $push: {
+                        posts: {
+                            $each: [ transaction._id ],
+                            $position: 0
+                        }
+                    }
+                }
                 await User.updateOne(    
                     query,
                     update
@@ -155,7 +162,14 @@ module.exports = {
                 
                 // Save to User
                 const query = { _id: userId };
-                const update = { $push: { posts: post._id } }
+                const update = {
+                    $push: {
+                        posts: {
+                            $each: [ post._id ],
+                            $position: 0
+                        }
+                    }
+                }
                 await User.updateOne(    
                     query,
                     update
