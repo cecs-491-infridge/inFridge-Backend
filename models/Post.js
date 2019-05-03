@@ -16,9 +16,13 @@ const locationSchema = require('./Location.js').Schema;
 let PostSchema = new mongoose.Schema(
     {
         _id: mongoose.Schema.Types.ObjectId,
-        author: {
+        authorId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
+            required: true
+        },
+        authorName: {
+            type: 'String',
             required: true
         },
         body: { type: String, required: true, minlength: 1 },

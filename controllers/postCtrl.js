@@ -20,11 +20,11 @@ module.exports = {
         getAllPosts: async (req, res) => {
             try {
                 console.log('getAllPosts')
-                const allPosts = await Post.find({});
+                const allPosts = await Post.find({}).populate('comments');
 
                 console.log('success');
 
-		console.log(allPosts);
+		        console.log(allPosts);
 
                 res.status(201).send({
                     data: allPosts
@@ -75,50 +75,13 @@ module.exports = {
                 res.status(400).send(err);
             }
         },
-        // likePost: async(req, res) => {
-        //     try{
-        //         const { postId, userId } = req.body;
-
-        //         const query = { _id: postId };
-        //         const update = { $push: { likes: userId } };
-
-        //         const data = await Post.updateOne(
-        //             query,
-        //             update
-        //         );
-
-        //         res.status(201).send(
-        //             data
-        //         )
-        //     }catch(err){
-        //         res.status(409).send(err);
-        //     }
-        // },
-        // unlikePost: async(req, res) => {
-        //     try{
-        //         const { postId, userId } = req.body;
-
-        //         const query = { _id: postId };
-        //         const update = { $pull: { likes: userId } };
-
-        //         const data = await Post.updateOne(
-        //             query,
-        //             update
-        //         );
-
-        //         res.status(201).send(
-        //             data
-        //         )
-        //     }catch(err){
-        //         res.status(409).send(err);
-        //     }
-        // },
 
         // TRANSACTIONS
         createTransaction: async(req, res) => {
             try {
                 // Grab userId, provided by login middleware
                 const userId = req.user._id;
+                const username = req.user.name;
                 // Grab Transaction and image data from req
                 // Added by multer and aws middleware
                 const transactionId = req.ids[0];
@@ -132,6 +95,8 @@ module.exports = {
             
                 const transaction = new Transaction({
                     _id: transactionId,
+                    authorId: userId,
+                    authorName: username,
                     body,
                     location:{longitude,latitude},
                     tradeType,
@@ -162,6 +127,7 @@ module.exports = {
             try {
                 // Grab userId, provided by login middleware
                 const userId = req.user._id;
+                const username = req.user.name;
                 // Grab Transaction and image data from req
                 // Added by multer and aws middleware
                 const postId = req.ids[0];
@@ -175,6 +141,8 @@ module.exports = {
             
                 const post = new Post({
                     _id: postId,
+                    authorId: userId,
+                    authorName: username,
                     body,
                     imageUrl
                 });
@@ -234,10 +202,14 @@ module.exports = {
 
         createComment: async(req, res) => {
             try{
-                const author = req.user._id;
+                const userId = req.user._id;
+                const username = req.user.name;
+
                 const { postId, body } = req.body;
                 const comment = new Comment({
-                    author,
+                    postId,
+                    authorId: userId,
+                    authorName: username,
                     body
                 });
 

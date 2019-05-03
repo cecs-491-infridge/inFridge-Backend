@@ -3,7 +3,13 @@ const { Post, discriminatorKey } = require('./Post');
 const idConstructor = require('mongoose').Types.ObjectId;
 
 let CommentSchema = new mongoose.Schema(
-    {},
+    {
+        postId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Post',
+            required: true
+        }
+    },
     discriminatorKey
 );
 

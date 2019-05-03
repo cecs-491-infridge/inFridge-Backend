@@ -109,7 +109,8 @@ module.exports = {
                         token: await jwtSigner.createToken(
                             {
                                 user: {
-                                    _id: user._id
+                                    _id: user._id,
+                                    name: user.name
                                 }
                             })
                     };
