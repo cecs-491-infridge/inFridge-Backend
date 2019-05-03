@@ -230,6 +230,7 @@ module.exports = {
                 });
                 
             }catch(err){
+                console.log(err);
                 res.status(409).send(err);
             }
         }
