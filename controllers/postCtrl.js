@@ -4,6 +4,8 @@ const { Post } = require('../models/Post');
 const Transaction = require('../models/Transaction');
 const Comment = require('../models/Comment');
 
+const idConstructor = require('mongoose').Types.ObjectId;
+
 module.exports = {
         getUserPost: (req, res) => {
             const { postId } = req.params;
@@ -84,8 +86,8 @@ module.exports = {
                 const username = req.user.name;
                 // Grab Transaction and image data from req
                 // Added by multer and aws middleware
-                const transactionId = req.ids[0];
-                const imageUrl = req.awsUrls[0];
+                const transactionId = req.ids ? req.ids[0] : idConstructor();
+                const imageUrl = req.awsUrls ? req.awsUrls[0] : '';
 
                 const { body, longitude, latitude, tradeType } = req.body;
 
@@ -130,8 +132,8 @@ module.exports = {
                 const username = req.user.name;
                 // Grab Transaction and image data from req
                 // Added by multer and aws middleware
-                const postId = req.ids[0];
-                const imageUrl = req.awsUrls[0];
+                const postId = req.ids ? req.ids[0] : idConstructor();
+                const imageUrl = req.awsUrls ? req.awsUrls[0] : '';
 
                 const { body } = req.body;
 
