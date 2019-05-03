@@ -93,8 +93,9 @@ module.exports = {
 
                 console.log(req.body);
 
+                console.log(1)
                 if(!imageUrl && !body || !longitude && !latitude) return res.status(400).send("Please include at least an Image OR Desciption AND please set your location");
-            
+            console.log(2)
                 const transaction = new Transaction({
                     _id: transactionId,
                     authorId: userId,
