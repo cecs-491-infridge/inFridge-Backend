@@ -2,7 +2,7 @@ const postCtrl = require('../controllers/postCtrl');
 const { login, loggedIn, uploadToAws } = require('../utility/customMiddleware');
 
 const maxFileSize = 5;
-const maxFields = 3;
+const maxFields = 10;
 const exposeSingleFile = require('../utility/customMiddleware').getMulterSingle(maxFileSize, maxFields);
 
 module.exports = (router) => {
