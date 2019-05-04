@@ -6,7 +6,7 @@ let TransactionSchema = new mongoose.Schema(
         tradeType: {
             type: String,
             // Allowable values for tradeType
-            enum: ['donate', 'trade', 'sell'],
+            enum: ['Donate', 'Trade', 'Sell'],
             required: true
         },
         buyer: {

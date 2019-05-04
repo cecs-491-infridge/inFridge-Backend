@@ -62,6 +62,7 @@ module.exports = {
             fileSize: maxMegabytes * MB_SIZE,
             files: maxFiles,
             fields: maxFields,
+            fieldSize: 2 * 1024 * 1024
     
         }
         const multipleUpload = multer({
@@ -87,7 +88,8 @@ module.exports = {
         const storage = multer.memoryStorage();
         const limits = {
             fileSize: maxMegabytes * MB_SIZE,
-            fields: maxFields
+            fields: maxFields,
+            fieldSize: 2 * 1024 * 1024
         }
         const singleUpload = multer({
                 storage,
