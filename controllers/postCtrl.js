@@ -23,7 +23,7 @@ console.log('Get All User Posts');
         getAllPosts: async (req, res) => {
             try {
                 console.log('getAllPosts')
-                const allPosts = await Post.find({}).populate('comments');
+                const allPosts = await Post.find({ $or: [ {kind: 'Transaction'}, {kind: 'Post'} ]}).populate('comments');
 
                 console.log('success');
 
