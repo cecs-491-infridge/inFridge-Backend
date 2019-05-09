@@ -93,6 +93,7 @@ console.log(req.body);
 
                 const { body, longitude, latitude, tradeType } = req.body;
 
+                console.log('Creating a Transaction')
                 console.log(req.body);
 
                 console.log(1)
