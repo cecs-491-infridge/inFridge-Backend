@@ -15,6 +15,7 @@ module.exports = {
 
         getAllUserPosts: (req, res) => {
             const userId = req.params.userId;
+console.log('Get All User Posts');
 
             util.populateAndRespond(res, User, userId, 'posts');
         },
@@ -81,6 +82,7 @@ module.exports = {
         // TRANSACTIONS
         createTransaction: async(req, res) => {
             try {
+console.log(req.body);
                 // Grab userId, provided by login middleware
                 const userId = req.user._id;
                 const username = req.user.name;

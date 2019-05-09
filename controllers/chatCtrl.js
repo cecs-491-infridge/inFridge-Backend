@@ -36,11 +36,11 @@ module.exports = {
             for(let i in chats){
                 let chat = chats[i];
 
-                let name = await User.findById(chat.user1).name;
+                let name = (await User.findById(chat.user1)).name;
                 if(!name) name = "No name";
                 let user1 = {id:chat.user1,name};
 
-                name = await User.findById(chat.user1).name;
+                name = (await User.findById(chat.user2)).name;
                 if(!name) name = "No name";
                 let user2 = {id:chat.user2,name};
 
@@ -50,7 +50,6 @@ module.exports = {
                     user2
                 });
             }
-            console.log(result);
 
             res.status(200).send(result);
         }catch(e){

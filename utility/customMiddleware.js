@@ -16,7 +16,7 @@ module.exports = {
     // and call next() regardless of success
 	login: async (req, res, next) => {
         const { token } = req.body;
-
+console.log('Login')
         // No attempt to login
         if(!token) {
             console.log('Did not log in');
@@ -90,6 +90,7 @@ module.exports = {
             fileSize: maxMegabytes * MB_SIZE,
             fields: maxFields,
             fieldSize: 2 * 1024 * 1024
+
         }
         const singleUpload = multer({
                 storage,

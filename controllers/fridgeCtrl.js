@@ -7,7 +7,7 @@ module.exports = {
     getUserFood: async (req, res) => {
         try {
             const userId = req.params.id;
-            
+console.log('In Get User Food');            
             await User.findById(userId)
                 .populate('foodList', ((err, foodList) => {
                     if(err) throw new Error("Cannot populate User.foodList");
