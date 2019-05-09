@@ -165,6 +165,9 @@ console.log(req.body);
 
                 // Save Post
                 const save = await post.save();
+
+                console.log('----');
+                console.log(save);
                 
                 // Save to User
                 const query = { _id: userId };
