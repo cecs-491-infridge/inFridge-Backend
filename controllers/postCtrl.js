@@ -148,8 +148,10 @@ console.log(req.body);
 
                 const { body } = req.body;
 
-                console.log('Creating a Status Post')
+                console.log('Creating a Status Post');
                 console.log(req.body);
+                console.log('----');
+                console.log(body);
 
                 if(!imageUrl && !body) return res.status(400).send("Please include at least an Image OR Desciption");
             
