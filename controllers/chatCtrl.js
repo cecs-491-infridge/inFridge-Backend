@@ -4,6 +4,15 @@ const User = require('../models/User');
 const Message = require('../models/Message');
 
 module.exports = {
+    getAllChats: async(req, res) => {
+        try {
+            let chats = await Chat.find({});
+            res.status(200).send(chats);                
+        }catch(err) {
+            console.error(err);
+            res.send(400);
+        }
+    },
 
     getChats: async(req, res) => {
         try{

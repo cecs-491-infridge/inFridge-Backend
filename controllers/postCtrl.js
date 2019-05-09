@@ -45,7 +45,7 @@ module.exports = {
         deletePost: async(req, res) => {
             console.log('in')
             try{
-                const { postId, inputPassword } = req.body;
+                const { postId } = req.body;
 
                 const userId = await Post.findById(postId).select('author');
                 console.log(userId);
