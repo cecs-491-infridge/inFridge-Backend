@@ -1,3 +1,7 @@
+/*
+Module to route api requests to the correct User methods in ../controllers/usertCtrl.js
+*/
+
 const userCtrl = require('../controllers/userCtrl');
 
 module.exports = (router) => {

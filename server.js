@@ -1,3 +1,9 @@
+/*
+Entry point to our app
+Wraps our app  in a server
+and loads all necessary app middleware
+*/
+
 require('dotenv').load(); //graph API
 
 //OPEN SSL

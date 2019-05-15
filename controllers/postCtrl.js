@@ -1,3 +1,7 @@
+// Module to that handles reading and writing user food items
+// via the User and UserFood models
+// Can getAll, create, delete, and deleteMultiple
+
 const util = require('../utility/responses');
 const User = require('../models/User');
 const { Post } = require('../models/Post');
@@ -7,12 +11,24 @@ const Comment = require('../models/Comment');
 const idConstructor = require('mongoose').Types.ObjectId;
 
 module.exports = {
+        /*
+            Get a User's post
+
+            params: postId
+            return: Post object
+        */
         getUserPost: (req, res) => {
             const { postId } = req.params;
         
             util.respondWithDataById(res, Post, postId);
         },
 
+        /*
+            Get all of a User's posts
+
+            params: userId
+            return: Array of Post objects
+        */
         getAllUserPosts: (req, res) => {
             const userId = req.params.userId;
 console.log('Get All User Posts');
@@ -20,6 +36,12 @@ console.log('Get All User Posts');
             util.populateAndRespond(res, User, userId, 'posts');
         },
 
+        /*
+            Test method to get all Posts from the database
+
+            params: node
+            return: Array of all Post objects
+        */
         getAllPosts: async (req, res) => {
             try {
                 console.log('getAllPosts')
@@ -42,8 +64,13 @@ console.log('Get All User Posts');
             }
         },
 
-        // Need to test
-        deletePost: async(req, res) => {
+        /*
+            Delete a User's Post
+
+            params: postId
+            return: Sucess or error message
+        */
+       deletePost: async(req, res) => {
             console.log('in')
             try{
                 const { postId } = req.body;
@@ -65,6 +92,12 @@ console.log('Get All User Posts');
             }
         },
 
+        /*
+            Like a User's Post
+
+            params: userId
+            return: Sucess or error message
+        */
         likePost: async(req, res) => {
             const userId = req.user._id;
             const { postId } = req.body;
@@ -79,8 +112,14 @@ console.log('Get All User Posts');
             }
         },
 
-        // TRANSACTIONS
-        createTransaction: async(req, res) => {
+        /*
+            Create a new Transaction for a User
+
+            params required: userId, username, transactionId, longitude, latitude, tradeType
+            params optional: transactionBody, imageUrl
+            return: Sucess or error message
+        */
+       createTransaction: async(req, res) => {
             try {
 console.log(req.body);
                 // Grab userId, provided by login middleware
@@ -136,6 +175,13 @@ console.log(req.body);
                 res.status(409).send(err);
             }
         },
+        /*
+            Create a new Status Post for a User
+
+            params required: userId, username, postId
+            params optional: postBody, imageUrl
+            return: Sucess or error message
+        */
         createStatusPost: async(req, res) => {
             try {
                 // Grab userId, provided by login middleware
@@ -194,6 +240,12 @@ console.log(req.body);
             }
         },
 
+        /*
+            'Complete' a Transaction by adding purchaser's userId to the transaction
+
+            params required: trasactionId, buyerId
+            return: Success or error message
+        */
         completeTransaction: async(req, res) => {
             try{
                 const { transactionId, buyer } = req.body;
@@ -226,6 +278,12 @@ console.log(req.body);
             }
         },
 
+        /*
+            Like a Transaction by adding purchaser's userId to the transaction's likeList
+
+            params required: userId, username, postId, postBody
+            return: Success or error message
+        */
         createComment: async(req, res) => {
             try{
                 const userId = req.user._id;

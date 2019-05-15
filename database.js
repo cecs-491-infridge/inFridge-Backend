@@ -1,5 +1,13 @@
+/*
+Module to connet to database
+*/
+
 const mongoose = require('mongoose');
 
+/*
+Attempts to connect to database,
+throws exceptoon on error
+*/
 const connectToMongo = async (mongoPath) => {
     try {
         await mongoose.connect(mongoPath, {

@@ -1,3 +1,7 @@
+/*
+Module to route api requests to the correct Fridge methods in ../controllers/fridgeCtrl.js
+*/
+
 const fridgeCtrl = require('../controllers/fridgeCtrl');
 
 module.exports = (router) => {
