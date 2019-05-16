@@ -10,6 +10,7 @@ io.on("connection", socket => {
 
     // Add to our our sockets list
     socket.on("init",function(data){
+        console.log("init",data);
         let { id } = data;
         if(!sockets[id]) sockets[id] = {};
         sockets[id][socket.id] = socket;
@@ -31,6 +32,8 @@ io.on("connection", socket => {
 });
 
 exports.send = function(from, msg, time, to){
+    console.log(to);
+    console.log(sockets);
     let socket = sockets[to];
     if(!socket) return;
     console.log("socket emit message to: "+to);
