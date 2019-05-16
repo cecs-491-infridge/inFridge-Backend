@@ -5,6 +5,7 @@ const Request = require('request');
 const jwtSigner = require('../utility/jwt');
 var passport = require('passport');
 
+//credentials to create the URL for oauth that connects to Microsoft Graph Project
 const credentials = {
   client: {
     id: process.env.OAUTH_APP_ID,
@@ -24,6 +25,7 @@ const oauth2 = require('simple-oauth2').create(credentials);
 
 
 module.exports = {
+        //loginTest is an async function that creates a JWT and a session for the user that is logged in. This allows the user to access the rest of the app and sign their account to their actions.
         loginTest: async(req, res) => {
             const { userId } = req.body;
     
@@ -42,6 +44,8 @@ module.exports = {
                 res.status(502).send(err);
             }
         },
+
+        //authenticateUser is an async function that sends the URL to view on the frontend's Webview component. This URL is the Microsoft sign in page for our InFridge project 
         authenticateUser: async (req, res) => {
             console.log(oauth2);
           
@@ -56,6 +60,7 @@ module.exports = {
             console.log(`Generated auth url: ${authURL}`);
         },
 
+        //verifyToken is an async function that confirms that the authenication token can generate a valid access token from the Microsoft account that was signed in (with the OKTA account)
         verifyToken: async (req,res) => {
 
             let authToken = req.body.code;
@@ -80,6 +85,7 @@ module.exports = {
             }
         },
 
+        //verifyUsername is an async function that makes sure the username is not taken when creating a new username. It checks MongoDB to see if the username already exists.
         verifyUsername: async (req, res) => {
            try {
             const { username } = req.body;
@@ -96,6 +102,7 @@ module.exports = {
            }
         },
 
+        //loginUser is an async function that matches the typed in credentials to see if it is stored in MongoDB
         loginUser: async (req, res) => {
             try {
                 let  { username, password } = req.body;
@@ -130,6 +137,7 @@ module.exports = {
 
         },
 
+        //signout function signs out the user from the current session. They are not able to access the app unless they log in again.
         signout: (req, res) => {
             req.session.destroy(function(err) {
               req.logout();
