@@ -1,6 +1,14 @@
-//const transaction = require('../models/Transaction');
+/*
+Module with helper methods for performing CRUD operations and returning the response to the api caller
+*/
+
 module.exports = {
     // For POST requests
+    /*
+    Saves a document to the database and sends success or error message to api caller
+
+    params: doc to save
+    */
     saveDocAndRespond: async(res, doc) => {
         try{
             const newDoc = await doc.save();
@@ -22,6 +30,11 @@ module.exports = {
     },
 
     // For GET requests
+    /*
+    Gets a document from the database and sends it to api caller
+
+    params: model to query, id to search by
+    */
     getDocByIdAndRespond: async(res, model, id) => {
         try{
             const doc = await model.findById(id);
@@ -37,6 +50,12 @@ module.exports = {
         }
     },
 
+    /*
+    Finds a document from the database by id and populates a property,
+    then sends response to api caller
+
+    params: model to query, id to search by, property to populate
+    */
     populateAndRespond: async(res, model, id, property) => {
         try {
             await model.findOne({ _id: id })

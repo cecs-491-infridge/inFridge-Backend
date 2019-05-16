@@ -1,3 +1,6 @@
+// Module to that handles reading and writing user posts
+// via the User and Post models
+
 const User = require('../models/User');
 const { Post } = require('../models/Post');
 const feedLimit = 5;

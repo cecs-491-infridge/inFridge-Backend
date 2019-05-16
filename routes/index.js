@@ -1,3 +1,8 @@
+/*
+Index file for router
+adds all router modules to api's router
+*/
+
 const fridge = require('./fridge');
 const post = require('./post');
 const user = require('./user');

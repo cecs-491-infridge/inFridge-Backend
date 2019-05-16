@@ -1,6 +1,10 @@
 const multer  = require('multer');
 
 module.exports = {
+    /*
+    Not a middleware method
+    Instead, this method returns a middleware that exposes multiple image bytestreams from the api call
+    */
     getMulterMultiple: (maxMegabytes, maxFiles, maxFields) => {
         const MB_SIZE = 1000000;
     
@@ -18,6 +22,10 @@ module.exports = {
     
         return multipleUpload;
     },
+    /*
+    Not a middleware method
+    Instead, this method returns a middleware that exposes a single image bytestreams from the api call
+    */
     getMulterSingle: (maxMegabytes, maxFields) => {
         const MB_SIZE = 1000000;
     

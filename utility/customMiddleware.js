@@ -1,3 +1,8 @@
+/*
+Custom middleware
+Runs before other route methods to expose data
+*/
+
 const { verifyToken } = require('./jwt');
 
 const multer  = require('multer');
@@ -45,7 +50,11 @@ console.log('Login')
         // Always call next()
         console.log('Calling next from login middleware');
         return next();
-	},
+    },
+    /*
+    Checks if user object exists on req
+    If not, then not logged in, else is logged in
+    */
     loggedIn: (req, res, next) => {
         if (req.user) {
             next();
@@ -54,6 +63,11 @@ console.log('Login')
             res.status(401).send('Please login');
         }
     },
+
+    /*
+    Not a middleware method
+    Instead, this method returns a middleware that exposes multiple image bytestreams from the api call
+    */
     getMulterMultiple: (maxMegabytes, maxFiles, maxFields) => {
         const MB_SIZE = 1000000;
     
@@ -82,6 +96,10 @@ console.log('Login')
     
         return multipleUpload;
     },
+    /*
+    Not a middleware method
+    Instead, this method returns a middleware that exposes a single image bytestreams from the api call
+    */
     getMulterSingle: (maxMegabytes, maxFields) => {
         const MB_SIZE = 1000000;
     
@@ -109,6 +127,10 @@ console.log('Login')
     
         return singleUpload;
     },
+    /*
+    This middleware uploads images to AWS
+    and exposes an array of AWS imageUrls and ids on the req object
+    */
     uploadToAws: async(req, res, next) => {
         const bucketName = 'infridge-backend-chris';
         const userId = req.user._id;

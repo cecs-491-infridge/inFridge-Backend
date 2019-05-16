@@ -1,9 +1,19 @@
+// Module to that handles reading and writing user food items
+// via the User and UserFood models
+// Can getAll, create, delete, and deleteMultiple
+
 const util = require('../utility/responses');
 const User = require('../models/User');
 const Fridge = require('../models/Fridge');
 const UserFood = require('../models/UserFood');
 
 module.exports = {
+    /*
+        Get a User's food list
+
+        params: userId
+        return: Array of foodList objects
+    */
     getUserFood: async (req, res) => {
         try {
             const userId = req.params.id;
@@ -24,6 +34,13 @@ console.log('In Get User Food');
             });
         }
     },
+    /*
+        Create a new UserFood and add to a User's food list
+
+        params required: userId, foodName
+        params optional: purchaseDate, expirationDate
+        return: Success or error message
+    */
     createFood: async (req, res) => {
         try {
             const { userId, name, purchaseDate, expirationDate } = req.body;
@@ -58,6 +75,12 @@ console.log('In Get User Food');
             });
         }
     },
+    /*
+        Delete multiple UserFoods from a User's food list
+
+        params: userId, Array of food ids to delete
+        return: Success or error message
+    */
     deleteMultipleFood: async(req, res) => {
         try{
             const { userId, foodIdList } = req.body;
@@ -84,6 +107,12 @@ console.log('In Get User Food');
             });
         }
     },
+    /*
+        Delete a UserFood from a User's food list
+
+        params: userId, foodId to delete
+        return: Success or error message
+    */
     deleteFood: async(req, res) => {
         try{
             const { userId, foodId } = req.body;
@@ -111,6 +140,12 @@ console.log('In Get User Food');
             });
         }
     },
+    /*
+        Test method to get all UserFoods in the database
+
+        params: none
+        return: Array of UserFood objects
+    */
     getAllFood: async (req, res) => {
         try{
             const food = await UserFood.find({});

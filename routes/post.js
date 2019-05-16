@@ -1,3 +1,7 @@
+/*
+Module to route api requests to the correct Post methods in ../controllers/postCtrl.js
+*/
+
 const postCtrl = require('../controllers/postCtrl');
 const { login, loggedIn, uploadToAws } = require('../utility/customMiddleware');
 
