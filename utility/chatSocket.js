@@ -1,9 +1,14 @@
+/*
+ * Creates a socket for chat messaging
+ */
+
 const app = require("express")();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const port = process.env.PORT || 3003;
 var sockets = {};
 
+/* New client */
 io.on("connection", socket => {
 
     console.log("New client connected");
@@ -31,6 +36,7 @@ io.on("connection", socket => {
 
 });
 
+/* Sends a message to one of our clients */
 exports.send = function(from, msg, time, to){
     console.log(to);
     console.log(sockets);

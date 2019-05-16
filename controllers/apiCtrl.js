@@ -1,7 +1,11 @@
+/*
+ * Handles all the requests for spoonacular api
+ */
 const unirest = require('unirest');
 const spoonURL = 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/';
 
 module.exports = {
+
 	/* Get recipe from given ingredients */
 	getRecipe: async(req, res) => {
 		try{
@@ -30,6 +34,7 @@ module.exports = {
 		}
 	},
     
+    /* Searches for a recipe from the given keyword */
     searchRecipe: async(req, res) => {
         try{
             let { search } = req.query;

@@ -1,9 +1,16 @@
+/* 
+ * Handles all the chat requests and redirects it to socketio
+ */
 const socket = require('../utility/chatSocket.js');
 const Chat = require('../models/Chat');
 const User = require('../models/User');
 const Message = require('../models/Message');
 
 module.exports = {
+
+    /* Get all the available chats
+     * (debugging route)
+     */
     getAllChats: async(req, res) => {
         try {
             let chats = await Chat.find({});
@@ -14,6 +21,9 @@ module.exports = {
         }
     },
 
+    /*
+     * Get all the chat according to the given id
+     */
     getChats: async(req, res) => {
         try{
             let {id} = req.query;
@@ -59,6 +69,9 @@ module.exports = {
 
     },
 
+    /*
+     * Get the msgs in a specific chat
+     */
 	getMsgs: async(req, res) => {
         try{
             let {from, to} = req.query;
@@ -86,6 +99,9 @@ module.exports = {
         }
 	},
 
+    /*
+     * Saves a message and sends it to socketio
+     */
 	sendMsg: async(req, res) => {
         try{
             let { from, msg, time, to } = req.body;
